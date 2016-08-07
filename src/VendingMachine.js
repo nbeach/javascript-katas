@@ -35,6 +35,22 @@ class VendingMachine {
     return coinsToReturn;
   }
 
+  returnCoins() {
+    for(let coin of this._acceptedCoins) {
+      let coinsToReturn = Math.floor(this._credit / coin.getValue());
+      this._credit -= coin.getValue() * coinsToReturn;
+
+      for(let i = 1; i <= coinsToReturn; i++) {
+        this._coinReturnContents.push(coin);
+      }
+
+      if(this._credit === 0) {
+        break;
+      }
+    }
+
+  }
+
 }
 
 

@@ -1,4 +1,6 @@
-var expect = require('chai').expect;
+let expect = require('chai').expect;
+let _ = require('lodash');
+
 let VendingMachine = require('../src/VendingMachine');
 let CircularObject = require('../src/CircularObject');
 let Coin = require('../src/Coin');
@@ -99,6 +101,32 @@ describe('VendingMachine', function() {
 
       retrievedCoins = vendingMachine.emptyCoinReturn();
       expect(retrievedCoins.length).to.equal(0);
+    });
+
+  });
+
+  describe("when the coin return is pushed", function() {
+    let coinValued1, coinValued3;
+
+    beforeEach(function() {
+      coinValued1 = new Coin(2, 2, 1);
+      coinValued3 = new Coin(1, 1, 3);
+      vendingMachine = new VendingMachine([coinValued1, coinValued3]);
+    });
+
+    it("puts coins totalling the current credit in the coin return", function() {
+      vendingMachine.insertCoin(coinValued1);
+      vendingMachine.insertCoin(coinValued1);
+      vendingMachine.insertCoin(coinValued3);
+
+      vendingMachine.returnCoins();
+      let returnedCoins = vendingMachine.emptyCoinReturn();
+
+      let totalValue = _.reduce(returnedCoins, function(sum, coin) {
+        return sum + coin.getValue();
+      }, 0);
+
+      expect(totalValue).to.equal(5);
     });
 
   });
