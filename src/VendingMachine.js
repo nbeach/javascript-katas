@@ -30,7 +30,9 @@ class VendingMachine {
   }
 
   emptyCoinReturn() {
-    return this._coinReturnContents;
+    let coinsToReturn = this._coinReturnContents;
+    this._coinReturnContents = [];
+    return coinsToReturn;
   }
 
 }

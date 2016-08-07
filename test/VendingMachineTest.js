@@ -82,6 +82,25 @@ describe('VendingMachine', function() {
 
   });
 
+  describe("when the coin return contents is emptied", function() {
+    let unrecognizedCoin;
 
+    beforeEach(function() {
+      vendingMachine = new VendingMachine();
+      unrecognizedCoin = new CircularObject(100, 200);
+    });
+
+
+    it("clears the coin return contents", function() {
+      vendingMachine.insertCoin(unrecognizedCoin);
+
+      let retrievedCoins = vendingMachine.emptyCoinReturn();
+      expect(retrievedCoins.length).to.equal(1);
+
+      retrievedCoins = vendingMachine.emptyCoinReturn();
+      expect(retrievedCoins.length).to.equal(0);
+    });
+
+  });
 
 });
