@@ -12,7 +12,7 @@ class Coin extends CircularObject {
   }
 
   equals(coin) {
-    return super.equals(coin);
+    return super.equals(coin) && this._value === coin.getValue();
   }
 
 }

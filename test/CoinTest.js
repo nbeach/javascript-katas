@@ -40,6 +40,15 @@ describe('CoinTest', function() {
 
     });
 
+    describe('which has a different value', function() {
+
+      it("reports they are not equal", function() {
+        let otherObject = new Coin(coin.getDiameter(), coin.getWeight(), 100);
+
+        expect(coin.equals(otherObject)).to.be.false;
+      });
+
+    });
   });
 
 
