@@ -45,12 +45,20 @@ describe('VendingMachine', function() {
     });
 
     describe('and it is an unrecognized coin', function() {
+      let object;
+
+      beforeEach(function() {
+        object = new CircularObject(100, 200);
+      });
 
       it("tells that the coin was rejected", function() {
-        let object = new CircularObject(100, 200);
         let isValidCoin = vendingMachine.insertCoin(object);
-
         expect(isValidCoin).to.be.false;
+      });
+
+      it("adds no credit", function() {
+        vendingMachine.insertCoin(object);
+        expect(vendingMachine.getDisplayMessage()).to.equal("INSERT COIN");
       });
 
     });
