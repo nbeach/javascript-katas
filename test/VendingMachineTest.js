@@ -44,6 +44,17 @@ describe('VendingMachine', function() {
 
     });
 
+    describe('and it is an unrecognized coin', function() {
+
+      it("tells that the coin was rejected", function() {
+        let object = new CircularObject(100, 200);
+        let isValidCoin = vendingMachine.insertCoin(object);
+
+        expect(isValidCoin).to.be.false;
+      });
+
+    });
+
   });
 
 

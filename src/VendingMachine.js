@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 class VendingMachine {
 
   constructor(acceptedCoins) {
@@ -9,10 +11,11 @@ class VendingMachine {
       return "INSERT COIN";
   }
 
-  insertCoin(insertedCoin) {
-    return true;
-  }
+  insertCoin(circularObject) {
+    var coin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
 
+    return !_.isUndefined(coin);
+  }
 
 }
 
