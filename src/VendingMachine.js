@@ -5,6 +5,7 @@ class VendingMachine {
   constructor(acceptedCoins) {
     this._acceptedCoins = acceptedCoins;
     this._credit = 0;
+    this._coinReturnContents = [];
   }
 
   getDisplayMessage() {
@@ -16,16 +17,20 @@ class VendingMachine {
   }
 
   insertCoin(circularObject) {
-    var coin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
+    let coin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
 
     if(_.isUndefined(coin)) {
+      this._coinReturnContents.push(circularObject);
       return false;
     }
-
 
     this._credit += coin.getValue();
     return true;
 
+  }
+
+  emptyCoinReturn() {
+    return this._coinReturnContents;
   }
 
 }

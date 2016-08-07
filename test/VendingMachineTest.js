@@ -70,9 +70,18 @@ describe('VendingMachine', function() {
         expect(vendingMachine.getDisplayMessage()).to.equal("INSERT COIN");
       });
 
+      it("puts the coin in the coin return", function() {
+        vendingMachine.insertCoin(object);
+
+        let coinReturnContents = vendingMachine.emptyCoinReturn();
+        expect(coinReturnContents.length).to.equal(1);
+        expect(coinReturnContents[0]).to.equal(object);
+      });
+
     });
 
   });
+
 
 
 });
