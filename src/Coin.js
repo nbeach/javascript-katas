@@ -11,6 +11,10 @@ class Coin extends CircularObject {
     return this._value;
   }
 
+  equals(coin) {
+    return super.equals(coin);
+  }
+
 }
 
 module.exports = Coin;
