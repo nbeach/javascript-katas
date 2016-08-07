@@ -32,14 +32,23 @@ describe('VendingMachine', function() {
     });
 
     describe('and it is an accepted coin', function() {
+      let acceptedCoin;
+
+      beforeEach(function() {
+        acceptedCoin = acceptedCoins[1];
+      });
 
       it("tells that the coin was accepted", function() {
-        let coin = acceptedCoins[0];
-        let object = new CircularObject(coin.getDiameter(), coin.getWeight());
+        let object = new CircularObject(acceptedCoin.getDiameter(), acceptedCoin.getWeight());
 
         let isValidCoin = vendingMachine.insertCoin(object);
 
         expect(isValidCoin).to.be.true;
+      });
+
+      it("displays credit for the coin on the display", function() {
+        vendingMachine.insertCoin(acceptedCoin);
+        expect(vendingMachine.getDisplayMessage()).to.contain(acceptedCoin.getValue().toFixed(2));
       });
 
     });

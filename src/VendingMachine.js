@@ -8,13 +8,24 @@ class VendingMachine {
   }
 
   getDisplayMessage() {
-      return "INSERT COIN";
+      if(this._credit > 0) {
+        return this._credit.toFixed(2);
+      } else {
+        return "INSERT COIN";
+      }
   }
 
   insertCoin(circularObject) {
     var coin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
 
-    return !_.isUndefined(coin);
+    if(_.isUndefined(coin)) {
+      return false;
+    }
+
+
+    this._credit += coin.getValue();
+    return true;
+
   }
 
 }
