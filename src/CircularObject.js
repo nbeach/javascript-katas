@@ -13,8 +13,9 @@ class CircularObject {
     return this._diameter;
   }
 
-  equals(object) {
-    return this._diameter === object.getDiameter();
+  equals(circularObject) {
+    return this._diameter === circularObject.getDiameter()
+      && this._weight === circularObject.getWeight();
   }
 }
 

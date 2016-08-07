@@ -30,6 +30,16 @@ describe('CircularObjectTest', function() {
 
     });
 
+    describe('which has a different weight', function() {
+
+      it("reports they are not equal", function() {
+        let otherObject = new CircularObject(object.getDiameter(), 4);
+
+        expect(object.equals(otherObject)).to.be.false;
+      });
+
+    });
+
   });
 
 
