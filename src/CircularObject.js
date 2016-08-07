@@ -13,6 +13,9 @@ class CircularObject {
     return this._diameter;
   }
 
+  equals(object) {
+    return true;
+  }
 }
 
 module.exports = CircularObject;
