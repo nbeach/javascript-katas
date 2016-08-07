@@ -36,13 +36,16 @@ class VendingMachine {
   }
 
   returnCoins() {
-    for(let coin of this._acceptedCoins) {
-      let coinsToReturn = Math.floor(this._credit / coin.getValue());
-      this._credit -= coin.getValue() * coinsToReturn;
+    //Sort coins in descending order so change is made with the largest denominations first
+    let acceptedCoins = _.sortBy(this._acceptedCoins, function(coin) {
+      return coin.getValue();
+    }).reverse();
 
-      for(let i = 1; i <= coinsToReturn; i++) {
-        this._coinReturnContents.push(coin);
-      }
+
+    for(let acceptedCoin of acceptedCoins) {
+      let quantityToReturn = Math.floor(this._credit / acceptedCoin.getValue());
+      this._addCoinsToReturn(acceptedCoin, quantityToReturn);
+      this._credit -= acceptedCoin.getValue() * quantityToReturn;
 
       if(this._credit === 0) {
         break;
@@ -50,6 +53,14 @@ class VendingMachine {
     }
 
   }
+
+  _addCoinsToReturn(coin, quantity) {
+
+    for(let i = 1; i <= quantity; i++) {
+      this._coinReturnContents.push(coin);
+    }
+  }
+
 
 }
 

@@ -106,18 +106,18 @@ describe('VendingMachine', function() {
   });
 
   describe("when the coin return is pushed", function() {
-    let coinValued1, coinValued3;
+    let quarter, dime, nickel;
 
     beforeEach(function() {
-      coinValued1 = new Coin(2, 2, 1);
-      coinValued3 = new Coin(1, 1, 3);
-      vendingMachine = new VendingMachine([coinValued1, coinValued3]);
+      quarter = new Coin(1, 1, 25);
+      dime = new Coin(2, 2, 10);
+      nickel = new Coin(3, 3, 5);
+      vendingMachine = new VendingMachine([nickel, quarter, dime]);
     });
 
     it("puts coins totalling the current credit in the coin return", function() {
-      vendingMachine.insertCoin(coinValued1);
-      vendingMachine.insertCoin(coinValued1);
-      vendingMachine.insertCoin(coinValued3);
+      vendingMachine.insertCoin(quarter);
+      vendingMachine.insertCoin(nickel);
 
       vendingMachine.returnCoins();
       let returnedCoins = vendingMachine.emptyCoinReturn();
@@ -126,7 +126,25 @@ describe('VendingMachine', function() {
         return sum + coin.getValue();
       }, 0);
 
-      expect(totalValue).to.equal(5);
+      expect(totalValue).to.equal(30);
+    });
+
+    describe("and available coins are sufficient", function() {
+
+      it("it returns the largest possible coins denominations", function() {
+        vendingMachine.insertCoin(quarter);
+        vendingMachine.insertCoin(dime);
+        vendingMachine.insertCoin(dime);
+        vendingMachine.insertCoin(nickel);
+
+        vendingMachine.returnCoins();
+        let returnedCoins = vendingMachine.emptyCoinReturn();
+
+        expect(returnedCoins.length).to.equal(2);
+        expect(returnedCoins[0].getValue()).to.equal(25);
+        expect(returnedCoins[1].getValue()).to.equal(25);
+      });
+
     });
 
   });
