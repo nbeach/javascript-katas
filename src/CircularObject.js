@@ -14,7 +14,7 @@ class CircularObject {
   }
 
   equals(object) {
-    return true;
+    return this._diameter === object.getDiameter();
   }
 }
 
