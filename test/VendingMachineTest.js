@@ -333,6 +333,15 @@ describe('VendingMachine', function() {
 
     });
 
+    describe("and it is sold out", function() {
+
+        it("displays sold out on the display", function() {
+          vendingMachine.dispense(cola);
+          expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT");
+        });
+
+    });
+
   });
 
 });

@@ -74,7 +74,9 @@ class VendingMachine {
   dispense(product) {
     let inventoryItem = _.find(this._productInventory, (productInventory) => productInventory.product.equals(product));
 
-    if(inventoryItem.product.getPrice() > this._credit) {
+    if(inventoryItem.quantity === 0) {
+      this._nextDisplayMessage = "SOLD OUT";
+    } else if(inventoryItem.product.getPrice() > this._credit) {
       this._nextDisplayMessage = inventoryItem.product.getPrice().toFixed(2);
       return false;
     }
