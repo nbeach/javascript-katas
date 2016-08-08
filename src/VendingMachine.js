@@ -76,6 +76,7 @@ class VendingMachine {
 
     if(inventoryItem.quantity === 0) {
       this._nextDisplayMessage = "SOLD OUT";
+      return false;
     } else if(inventoryItem.product.getPrice() > this._credit) {
       this._nextDisplayMessage = inventoryItem.product.getPrice().toFixed(2);
       return false;

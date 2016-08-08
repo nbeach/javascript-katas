@@ -334,11 +334,19 @@ describe('VendingMachine', function() {
     });
 
     describe("and it is sold out", function() {
+      let result;
 
-        it("displays sold out on the display", function() {
-          vendingMachine.dispense(cola);
-          expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT");
-        });
+      beforeEach(function() {
+        result = vendingMachine.dispense(cola);
+      });
+
+      it("does not dispense the product", function() {
+        expect(result).to.be.false;
+      });
+
+      it("displays sold out on the display", function() {
+        expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT");
+      });
 
     });
 
