@@ -66,6 +66,10 @@ class VendingMachine {
     return _.map(this._productInventory, (productInventory) => productInventory.product);
   }
 
+  dispense(product) {
+    return true;
+  }
+
   _addToAvailableCoins(coin) {
     let availableCoin = _.find(this._availableCoins, (availableCoin) => availableCoin.coin.equals(coin));
     if(_.isUndefined(availableCoin)) {

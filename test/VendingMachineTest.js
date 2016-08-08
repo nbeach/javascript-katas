@@ -279,4 +279,42 @@ describe('VendingMachine', function() {
     }
   });
 
+  describe("when a product is selected", function() {
+    let productInventory, chips, cola;
+
+    beforeEach(function() {
+      chips = new Product('Chips', 50);
+      cola =  new Product('Cola', 100);
+
+      productInventory = [
+        {
+          product: cola,
+          quantity: 1
+        },
+        {
+          product: chips,
+          quantity: 0
+        }
+      ];
+
+      vendingMachine = new VendingMachine([quarter, dime, nickel], [], productInventory);
+    });
+
+    describe("and it is in stock", function() {
+
+      describe("and there is sufficient credit", function() {
+
+        it("dispenses the product", function() {
+          vendingMachine.insertCoin(quarter);
+          vendingMachine.insertCoin(quarter);
+          let dispensed = vendingMachine.dispense(chips);
+          expect(dispensed).to.be.true;
+        });
+
+      });
+
+    });
+
+  });
+
 });
