@@ -10,12 +10,16 @@ describe('CoinTest', function() {
 
   describe('when compared to another coin', function() {
 
+    function testCoinComparisonResult(diameter, weight, value, result) {
+      let otherCoin = new Coin(diameter, weight, value);
+
+      expect(coin.equals(otherCoin)).to.equal(result);
+    }
+
     describe('which is equal', function() {
 
       it("reports they are equal", function() {
-        let otherObject = new Coin(coin.getDiameter(), coin.getWeight(), coin.getValue());
-
-        expect(coin.equals(otherObject)).to.be.true;
+        testCoinComparisonResult(coin.getDiameter(), coin.getWeight(), coin.getValue(), true);
       });
 
     });
@@ -23,9 +27,7 @@ describe('CoinTest', function() {
     describe('which has a different diameter', function() {
 
       it("reports they are not equal", function() {
-        let otherObject = new Coin(3, coin.getWeight(), coin.getValue());
-
-        expect(coin.equals(otherObject)).to.be.false;
+        testCoinComparisonResult(3, coin.getWeight(), coin.getValue(), false);
       });
 
     });
@@ -33,9 +35,7 @@ describe('CoinTest', function() {
     describe('which has a different weight', function() {
 
       it("reports they are not equal", function() {
-        let otherObject = new Coin(coin.getDiameter(), 4, coin.getValue());
-
-        expect(coin.equals(otherObject)).to.be.false;
+        testCoinComparisonResult(coin.getDiameter(), 4, coin.getValue(), false);
       });
 
     });
@@ -43,9 +43,7 @@ describe('CoinTest', function() {
     describe('which has a different value', function() {
 
       it("reports they are not equal", function() {
-        let otherObject = new Coin(coin.getDiameter(), coin.getWeight(), 100);
-
-        expect(coin.equals(otherObject)).to.be.false;
+        testCoinComparisonResult(coin.getDiameter(), coin.getWeight(), 100, false);
       });
 
     });
