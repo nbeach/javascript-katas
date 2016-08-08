@@ -10,12 +10,16 @@ describe('ProductTest', function() {
 
   describe('when compared to another product', function() {
 
+    function testProductComparisonResult(name, price, result) {
+      let otherProduct = new Product(name, price);
+
+      expect(product.equals(otherProduct)).to.equal(result);
+    }
+
     describe('which is equal', function () {
 
       it("reports they are equal", function () {
-        let otherProduct = new Product(product.getName(), product.getPrice());
-
-        expect(product.equals(otherProduct)).to.be.true;
+        testProductComparisonResult(product.getName(), product.getPrice(), true);
       });
 
     });
@@ -23,9 +27,7 @@ describe('ProductTest', function() {
     describe('which has a different name', function() {
 
       it("reports they are not equal", function() {
-        let otherProduct = new Product("otherName", product.getPrice());
-
-        expect(product.equals(otherProduct)).to.be.false;
+        testProductComparisonResult("otherName", product.getPrice(), false);
       });
 
     });
@@ -33,9 +35,7 @@ describe('ProductTest', function() {
     describe('which has a different price', function() {
 
       it("reports they are not equal", function() {
-        let otherProduct = new Product(product.getName(), 20);
-
-        expect(product.equals(otherProduct)).to.be.false;
+        testProductComparisonResult(product.getName(), 20, false);
       });
 
     });
