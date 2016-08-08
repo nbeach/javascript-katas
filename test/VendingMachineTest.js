@@ -112,7 +112,23 @@ describe('VendingMachine', function() {
       quarter = new Coin(1, 1, 25);
       dime = new Coin(2, 2, 10);
       nickel = new Coin(3, 3, 5);
-      vendingMachine = new VendingMachine([nickel, quarter, dime]);
+
+      let availableCoins = [
+        {
+          coin: quarter,
+          quantity: 100
+        },
+        {
+          coin: dime,
+          quantity: 100
+        },
+        {
+          coin: nickel,
+          quantity: 100
+        }
+      ];
+
+      vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
     });
 
     it("puts coins totalling the current credit in the coin return", function() {
@@ -143,6 +159,49 @@ describe('VendingMachine', function() {
         expect(returnedCoins.length).to.equal(2);
         expect(returnedCoins[0].getValue()).to.equal(25);
         expect(returnedCoins[1].getValue()).to.equal(25);
+      });
+
+    });
+
+    describe("and larger denomination coins are unavailable", function() {
+
+      beforeEach(function() {
+        let availableCoins = [
+          {
+            coin: nickel,
+            quantity: 10
+          },
+          {
+            coin: quarter,
+            quantity: 1
+          },
+          {
+            coin: dime,
+            quantity: 1
+          }
+        ];
+
+        vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
+      });
+
+      it("it returns returns multiple smaller denomination coins", function() {
+        for(let i = 1; i <= 10; i++) {
+          vendingMachine.insertCoin(nickel);
+        }
+        vendingMachine.returnCoins();
+        let returnedCoins = vendingMachine.emptyCoinReturn();
+
+        expect(returnedCoins.length).to.equal(5);
+
+        let quarterCount = _.filter(returnedCoins, quarter.equals.bind(quarter)).length;
+        expect(quarterCount).to.equal(1);
+
+        let dimeCount = _.filter(returnedCoins, dime.equals.bind(dime)).length;
+        expect(dimeCount).to.equal(1);
+
+        let nickelCount = _.filter(returnedCoins, nickel.equals.bind(nickel)).length;
+        expect(nickelCount).to.equal(3);
+
       });
 
     });

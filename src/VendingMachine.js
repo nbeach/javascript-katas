@@ -2,8 +2,9 @@ var _ = require('lodash');
 
 class VendingMachine {
 
-  constructor(acceptedCoins) {
+  constructor(acceptedCoins, availableCoins) {
     this._acceptedCoins = acceptedCoins;
+    this._availableCoins = availableCoins;
     this._credit = 0;
     this._coinReturnContents = [];
   }
@@ -37,15 +38,21 @@ class VendingMachine {
 
   returnCoins() {
     //Sort coins in descending order so change is made with the largest denominations first
-    let acceptedCoins = _.sortBy(this._acceptedCoins, function(coin) {
-      return coin.getValue();
-    }).reverse();
+    let availableCoins = _.sortBy(this._availableCoins, (availableCoin) => availableCoin.coin.getValue()).reverse();
+
+    for(let availableCoin of availableCoins) {
+      let coin = availableCoin.coin;
+      let quantityAvailable = availableCoin.quantity;
+
+      let quantityToReturn = Math.floor(this._credit / coin.getValue());
+      if(quantityToReturn > quantityAvailable) {
+        quantityToReturn = quantityAvailable;
+      }
 
 
-    for(let acceptedCoin of acceptedCoins) {
-      let quantityToReturn = Math.floor(this._credit / acceptedCoin.getValue());
-      this._addCoinsToReturn(acceptedCoin, quantityToReturn);
-      this._credit -= acceptedCoin.getValue() * quantityToReturn;
+      this._addCoinsToReturn(coin, quantityToReturn);
+      this._credit -= coin.getValue() * quantityToReturn;
+
 
       if(this._credit === 0) {
         break;
@@ -55,7 +62,6 @@ class VendingMachine {
   }
 
   _addCoinsToReturn(coin, quantity) {
-
     for(let i = 1; i <= quantity; i++) {
       this._coinReturnContents.push(coin);
     }
