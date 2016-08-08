@@ -10,12 +10,16 @@ describe('CircularObjectTest', function() {
 
   describe('when compared to another object', function() {
 
+    function testCircularObjectComparisonResult(diameter, weight, result) {
+      let otherObject = new CircularObject(diameter, weight);
+
+      expect(object.equals(otherObject)).to.equal(result);
+    }
+
     describe('which is equal', function() {
 
       it("reports they are equal", function() {
-        let otherObject = new CircularObject(object.getDiameter(), object.getWeight());
-
-        expect(object.equals(otherObject)).to.be.true;
+        testCircularObjectComparisonResult(object.getDiameter(), object.getWeight(), true);
       });
 
     });
@@ -23,9 +27,7 @@ describe('CircularObjectTest', function() {
     describe('which has a different diameter', function() {
 
       it("reports they are not equal", function() {
-        let otherObject = new CircularObject(3, object.getWeight());
-
-        expect(object.equals(otherObject)).to.be.false;
+        testCircularObjectComparisonResult(3, object.getWeight(), false);
       });
 
     });
@@ -33,9 +35,7 @@ describe('CircularObjectTest', function() {
     describe('which has a different weight', function() {
 
       it("reports they are not equal", function() {
-        let otherObject = new CircularObject(object.getDiameter(), 4);
-
-        expect(object.equals(otherObject)).to.be.false;
+        testCircularObjectComparisonResult(object.getDiameter(), 4, false);
       });
 
     });
