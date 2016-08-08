@@ -360,6 +360,11 @@ describe('VendingMachine', function() {
         expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT");
       });
 
+      it("returns to displaying insert coin after displaying sold out", function() {
+        vendingMachine.getDisplayMessage();
+        expect(vendingMachine.getDisplayMessage()).to.equal("INSERT COIN");
+      });
+
     });
 
   });
