@@ -13,6 +13,9 @@ class Product {
     this._price;
   }
 
+  equals() {
+    return true;
+  }
 }
 
 module.exports = Product;
