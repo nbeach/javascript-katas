@@ -2,9 +2,10 @@ var _ = require('lodash');
 
 class VendingMachine {
 
-  constructor(acceptedCoins, availableCoins) {
+  constructor(acceptedCoins, availableCoins, productInventory) {
     this._acceptedCoins = acceptedCoins;
     this._availableCoins = availableCoins;
+    this._productInventory = productInventory;
     this._credit = 0;
     this._coinReturnContents = [];
   }
@@ -59,6 +60,10 @@ class VendingMachine {
       }
     }
 
+  }
+
+  getProducts() {
+    return _.map(this._productInventory, (productInventory) => productInventory.product);
   }
 
   _addToAvailableCoins(coin) {

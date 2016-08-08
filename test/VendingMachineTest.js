@@ -4,6 +4,7 @@ let _ = require('lodash');
 let VendingMachine = require('../src/VendingMachine');
 let CircularObject = require('../src/CircularObject');
 let Coin = require('../src/Coin');
+let Product = require('../src/Product');
 
 describe('VendingMachine', function() {
   let vendingMachine, quarter, dime, nickel;
@@ -251,5 +252,31 @@ describe('VendingMachine', function() {
     expect(returnedCoins[1].getValue()).to.equal(nickel.getValue());
   });
 
+  it("tells what products are available", function() {
+    let productInventory = [
+      {
+        product: new Product('Cola', 100),
+        quantity: 1
+      },
+      {
+        product: new Product('Chips', 50),
+        quantity: 1
+      },
+      {
+        product: new Product('Candy', 65),
+        quantity: 1
+      }
+    ];
+
+    vendingMachine = new VendingMachine([], [], productInventory);
+
+    var expectedProducts = _.map(productInventory, (productInventory) => productInventory.product);
+    var products = vendingMachine.getProducts();
+
+    expect(products.length).to.equal(expectedProducts.length);
+    for(let expectedProduct of expectedProducts) {
+      expect(products).to.contain(expectedProduct);
+    }
+  });
 
 });
