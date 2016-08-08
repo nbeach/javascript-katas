@@ -318,7 +318,12 @@ describe('VendingMachine', function() {
         it("displays thank you on the display", function() {
           expect(vendingMachine.getDisplayMessage()).to.equal("THANK YOU");
         });
-        
+
+        it("displays insert coin after displaying the thank you", function() {
+          vendingMachine.getDisplayMessage();
+          expect(vendingMachine.getDisplayMessage()).to.equal("INSERT COIN");
+        });
+
         it("depletes product inventory upon dispensing", function() {
           expect(dispensed).to.be.true;
 
