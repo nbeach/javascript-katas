@@ -340,7 +340,11 @@ describe('VendingMachine', function() {
         it("displays the product price on the display", function() {
           expect(vendingMachine.getDisplayMessage()).to.contain(chips.getPrice().toFixed(2));
         });
-        
+
+        it("returns to displaying the current credit after displaying the product price", function() {
+          vendingMachine.getDisplayMessage();
+          expect(vendingMachine.getDisplayMessage()).to.equal("0.25");
+        });
       });
 
     });
