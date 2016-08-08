@@ -303,18 +303,23 @@ describe('VendingMachine', function() {
     describe("and it is in stock", function() {
 
       describe("and there is sufficient credit", function() {
+        let dispensed;
+
+        beforeEach(function() {
+          vendingMachine.insertCoin(quarter);
+          vendingMachine.insertCoin(quarter);
+          dispensed = vendingMachine.dispense(chips);
+        });
 
         it("dispenses the product", function() {
-          vendingMachine.insertCoin(quarter);
-          vendingMachine.insertCoin(quarter);
-          let dispensed = vendingMachine.dispense(chips);
           expect(dispensed).to.be.true;
         });
 
+        it("displays thank you on the display", function() {
+          expect(vendingMachine.getDisplayMessage()).to.equal("THANK YOU");
+        });
+        
         it("depletes product inventory upon dispensing", function() {
-          vendingMachine.insertCoin(quarter);
-          vendingMachine.insertCoin(quarter);
-          let dispensed = vendingMachine.dispense(chips);
           expect(dispensed).to.be.true;
 
           vendingMachine.insertCoin(quarter);
