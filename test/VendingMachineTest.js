@@ -308,6 +308,7 @@ describe('VendingMachine', function() {
         beforeEach(function() {
           vendingMachine.insertCoin(quarter);
           vendingMachine.insertCoin(quarter);
+          vendingMachine.insertCoin(nickel);
           dispensed = vendingMachine.dispense(chips);
         });
 
@@ -331,6 +332,12 @@ describe('VendingMachine', function() {
           vendingMachine.insertCoin(quarter);
           vendingMachine.dispense(chips);
           expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT")
+        });
+
+        it("returns the remaining change", function() {
+          let returnedCoins = vendingMachine.emptyCoinReturn();
+          expect(returnedCoins.length).to.equal(1);
+          expect(returnedCoins[0]).to.equal(nickel)
         });
 
       });

@@ -83,6 +83,7 @@ class VendingMachine {
     }
 
     this._credit -= inventoryItem.product.getPrice();
+    this.returnCoins();
     this._nextDisplayMessage = "THANK YOU";
     inventoryItem.quantity--;
     return true;
