@@ -13,8 +13,8 @@ class Product {
     this._price;
   }
 
-  equals() {
-    return true;
+  equals(product) {
+    return this._name === product.getName();
   }
 }
 
