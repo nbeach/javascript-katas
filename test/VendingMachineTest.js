@@ -311,6 +311,18 @@ describe('VendingMachine', function() {
           expect(dispensed).to.be.true;
         });
 
+        it("depletes product inventory upon dispensing", function() {
+          vendingMachine.insertCoin(quarter);
+          vendingMachine.insertCoin(quarter);
+          let dispensed = vendingMachine.dispense(chips);
+          expect(dispensed).to.be.true;
+
+          vendingMachine.insertCoin(quarter);
+          vendingMachine.insertCoin(quarter);
+          vendingMachine.dispense(chips);
+          expect(vendingMachine.getDisplayMessage()).to.equal("SOLD OUT")
+        });
+
       });
 
       describe("and there is insufficient credit", function() {

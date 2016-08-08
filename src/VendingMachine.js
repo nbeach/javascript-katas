@@ -82,6 +82,7 @@ class VendingMachine {
       return false;
     }
 
+    inventoryItem.quantity--;
     return true;
   }
 
