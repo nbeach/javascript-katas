@@ -8,10 +8,15 @@ class VendingMachine {
     this._productInventory = productInventory;
     this._credit = 0;
     this._coinReturnContents = [];
+    this._nextDisplayMessage = null;
   }
 
   getDisplayMessage() {
-      if(this._credit > 0) {
+      if(this._nextDisplayMessage !== null) {
+        var message = this._nextDisplayMessage;
+        this._nextDisplayMessage = null;
+        return message;
+      } else if(this._credit > 0) {
         return this._credit.toFixed(2);
       } else {
         return "INSERT COIN";
@@ -70,6 +75,7 @@ class VendingMachine {
     let inventoryItem = _.find(this._productInventory, (productInventory) => productInventory.product.equals(product));
 
     if(inventoryItem.product.getPrice() > this._credit) {
+      this._nextDisplayMessage = inventoryItem.product.getPrice().toFixed(2);
       return false;
     }
 

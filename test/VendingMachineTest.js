@@ -314,11 +314,19 @@ describe('VendingMachine', function() {
       });
 
       describe("and there is insufficient credit", function() {
+        let dispensed;
+
+        beforeEach(function() {
+          vendingMachine.insertCoin(quarter);
+          dispensed = vendingMachine.dispense(chips);
+        });
 
         it("does not dispense the product", function() {
-          vendingMachine.insertCoin(quarter);
-          let dispensed = vendingMachine.dispense(chips);
           expect(dispensed).to.be.false;
+        });
+
+        it("displays the product price on the display", function() {
+          expect(vendingMachine.getDisplayMessage()).to.contain(chips.getPrice().toFixed(2));
         });
 
       });
