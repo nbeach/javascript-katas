@@ -289,11 +289,11 @@ describe('VendingMachine', function() {
       productInventory = [
         {
           product: cola,
-          quantity: 1
+          quantity: 0
         },
         {
           product: chips,
-          quantity: 0
+          quantity: 1
         }
       ];
 
@@ -309,6 +309,16 @@ describe('VendingMachine', function() {
           vendingMachine.insertCoin(quarter);
           let dispensed = vendingMachine.dispense(chips);
           expect(dispensed).to.be.true;
+        });
+
+      });
+
+      describe("and there is insufficient credit", function() {
+
+        it("does not dispense the product", function() {
+          vendingMachine.insertCoin(quarter);
+          let dispensed = vendingMachine.dispense(chips);
+          expect(dispensed).to.be.false;
         });
 
       });

@@ -67,6 +67,12 @@ class VendingMachine {
   }
 
   dispense(product) {
+    let inventoryItem = _.find(this._productInventory, (productInventory) => productInventory.product.equals(product));
+
+    if(inventoryItem.product.getPrice() > this._credit) {
+      return false;
+    }
+
     return true;
   }
 
