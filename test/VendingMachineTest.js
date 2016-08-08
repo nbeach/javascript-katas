@@ -6,12 +6,18 @@ let CircularObject = require('../src/CircularObject');
 let Coin = require('../src/Coin');
 
 describe('VendingMachine', function() {
-  let vendingMachine;
+  let vendingMachine, quarter, dime, nickel;
+
+  beforeEach(function() {
+    quarter = new Coin(1, 1, 25);
+    dime = new Coin(2, 2, 10);
+    nickel = new Coin(3, 3, 5);
+  });
 
   describe('when no credit', function() {
 
     beforeEach(function() {
-      vendingMachine = new VendingMachine();
+      vendingMachine = new VendingMachine([], []);
     });
 
       it("shows an insert coin message on the display", function() {
@@ -30,7 +36,7 @@ describe('VendingMachine', function() {
         new Coin(4, 5, 6)
       ];
 
-      vendingMachine = new VendingMachine(acceptedCoins);
+      vendingMachine = new VendingMachine(acceptedCoins, []);
     });
 
     describe('and it is an accepted coin', function() {
@@ -88,7 +94,7 @@ describe('VendingMachine', function() {
     let unrecognizedCoin;
 
     beforeEach(function() {
-      vendingMachine = new VendingMachine();
+      vendingMachine = new VendingMachine([], []);
       unrecognizedCoin = new CircularObject(100, 200);
     });
 
@@ -106,13 +112,8 @@ describe('VendingMachine', function() {
   });
 
   describe("when the coin return is pushed", function() {
-    let quarter, dime, nickel;
 
     beforeEach(function() {
-      quarter = new Coin(1, 1, 25);
-      dime = new Coin(2, 2, 10);
-      nickel = new Coin(3, 3, 5);
-
       let availableCoins = [
         {
           coin: quarter,
@@ -207,5 +208,48 @@ describe('VendingMachine', function() {
     });
 
   });
+
+  it("tracks what coins it contains and doesn't return coins it doesn't have", function() {
+    let availableCoins = [
+      {
+        coin: quarter,
+        quantity: 1
+      }
+    ];
+
+    vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
+    vendingMachine.insertCoin(dime);
+    vendingMachine.insertCoin(dime);
+    vendingMachine.insertCoin(nickel);
+
+    vendingMachine.returnCoins();
+    let returnedCoins = vendingMachine.emptyCoinReturn();
+
+    expect(returnedCoins.length).to.equal(1);
+    expect(returnedCoins[0].getValue()).to.equal(quarter.getValue());
+
+
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.returnCoins();
+    returnedCoins = vendingMachine.emptyCoinReturn();
+
+    expect(returnedCoins.length).to.equal(2);
+    expect(returnedCoins[0].getValue()).to.equal(dime.getValue());
+    expect(returnedCoins[1].getValue()).to.equal(dime.getValue());
+
+
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.insertCoin(nickel);
+    vendingMachine.returnCoins();
+    returnedCoins = vendingMachine.emptyCoinReturn();
+
+    expect(returnedCoins.length).to.equal(2);
+    expect(returnedCoins[0].getValue()).to.equal(nickel.getValue());
+    expect(returnedCoins[1].getValue()).to.equal(nickel.getValue());
+  });
+
 
 });

@@ -18,14 +18,15 @@ class VendingMachine {
   }
 
   insertCoin(circularObject) {
-    let coin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
-
-    if(_.isUndefined(coin)) {
+    let acceptedCoin = _.find(this._acceptedCoins, circularObject.equals.bind(circularObject));
+    if(_.isUndefined(acceptedCoin)) {
       this._coinReturnContents.push(circularObject);
       return false;
     }
 
-    this._credit += coin.getValue();
+    this._credit += acceptedCoin.getValue();
+    this._addToAvailableCoins(acceptedCoin);
+
     return true;
 
   }
@@ -38,9 +39,9 @@ class VendingMachine {
 
   returnCoins() {
     //Sort coins in descending order so change is made with the largest denominations first
-    let availableCoins = _.sortBy(this._availableCoins, (availableCoin) => availableCoin.coin.getValue()).reverse();
+    this._availableCoins.sort((a, b) => a.coin.getValue() - b.coin.getValue()).reverse();
 
-    for(let availableCoin of availableCoins) {
+    for(let availableCoin of this._availableCoins) {
       let coin = availableCoin.coin;
       let quantityAvailable = availableCoin.quantity;
 
@@ -49,16 +50,27 @@ class VendingMachine {
         quantityToReturn = quantityAvailable;
       }
 
-
       this._addCoinsToReturn(coin, quantityToReturn);
       this._credit -= coin.getValue() * quantityToReturn;
-
+      availableCoin.quantity -= quantityToReturn;
 
       if(this._credit === 0) {
         break;
       }
     }
 
+  }
+
+  _addToAvailableCoins(coin) {
+    let availableCoin = _.find(this._availableCoins, (availableCoin) => availableCoin.coin.equals(coin));
+    if(_.isUndefined(availableCoin)) {
+      this._availableCoins.push({
+        coin: coin,
+        quantity: 1
+      });
+    } else {
+      availableCoin.quantity++;
+    }
   }
 
   _addCoinsToReturn(coin, quantity) {
