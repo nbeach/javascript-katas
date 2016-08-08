@@ -10,11 +10,11 @@ class Product {
   }
 
   getPrice() {
-    this._price;
+    return this._price;
   }
 
   equals(product) {
-    return this._name === product.getName();
+    return this._name === product.getName() && this._price === product.getPrice();
   }
 }
 

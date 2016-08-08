@@ -29,6 +29,16 @@ describe('ProductTest', function() {
       });
 
     });
+
+    describe('which has a different price', function() {
+
+      it("reports they are not equal", function() {
+        let otherProduct = new Product(product.getName(), 20);
+
+        expect(product.equals(otherProduct)).to.be.false;
+      });
+
+    });
   });
 
 
