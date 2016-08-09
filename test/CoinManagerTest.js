@@ -95,60 +95,66 @@ describe('CoinManager', function() {
 
     });
 
-
     describe("when a coin is inserted", function() {
 
 
-      it("tells if the coin was accepted", function() {
-        let accepted = coinManager.addCoin(nickel);
-        expect(accepted).to.be.true;
+      describe("and the coin is accepted", function() {
+
+        it("tells if the coin was accepted", function () {
+          let accepted = coinManager.addCoin(nickel);
+          expect(accepted).to.be.true;
+        });
+
+
+        it("tracks them in inventory and doesn't return coins it doesn't have", function() {
+          let availableCoins = [
+            {
+              coin: quarter,
+              quantity: 1
+            }
+          ];
+
+          coinManager = new CoinManager([nickel, quarter, dime], availableCoins);
+          coinManager.addCoin(dime);
+          coinManager.addCoin(dime);
+          coinManager.addCoin(nickel);
+
+          let returnedCoins = coinManager.makeChange(25);
+
+          expect(returnedCoins.length).to.equal(1);
+          expect(returnedCoins[0].getValue()).to.equal(quarter.getValue());
+
+          coinManager.addCoin(nickel);
+          coinManager.addCoin(nickel);
+          coinManager.addCoin(nickel);
+          coinManager.addCoin(nickel);
+          returnedCoins = coinManager.makeChange(20);
+
+          expect(returnedCoins.length).to.equal(2);
+          expect(returnedCoins[0].getValue()).to.equal(dime.getValue());
+          expect(returnedCoins[1].getValue()).to.equal(dime.getValue());
+
+
+          coinManager.addCoin(nickel);
+          coinManager.addCoin(nickel);
+          returnedCoins = coinManager.makeChange(10);
+
+          expect(returnedCoins.length).to.equal(2);
+          expect(returnedCoins[0].getValue()).to.equal(nickel.getValue());
+          expect(returnedCoins[1].getValue()).to.equal(nickel.getValue());
+        });
       });
 
-      it("tells if the coin was rejected", function() {
-        let accepted = coinManager.addCoin(new Coin(0, 0, 0));
-        expect(accepted).to.be.false;
+      describe("and the coin is rejected", function() {
+
+        it("tells if the coin was rejected", function() {
+          let accepted = coinManager.addCoin(new Coin(0, 0, 0));
+          expect(accepted).to.be.false;
+        });
+        
       });
 
-      it("tracks them in inventory and doesn't return coins it doesn't have", function() {
-        let availableCoins = [
-          {
-            coin: quarter,
-            quantity: 1
-          }
-        ];
-
-        coinManager = new CoinManager([nickel, quarter, dime], availableCoins);
-        coinManager.addCoin(dime);
-        coinManager.addCoin(dime);
-        coinManager.addCoin(nickel);
-
-        let returnedCoins = coinManager.makeChange(25);
-
-        expect(returnedCoins.length).to.equal(1);
-        expect(returnedCoins[0].getValue()).to.equal(quarter.getValue());
-
-        coinManager.addCoin(nickel);
-        coinManager.addCoin(nickel);
-        coinManager.addCoin(nickel);
-        coinManager.addCoin(nickel);
-        returnedCoins = coinManager.makeChange(20);
-
-        expect(returnedCoins.length).to.equal(2);
-        expect(returnedCoins[0].getValue()).to.equal(dime.getValue());
-        expect(returnedCoins[1].getValue()).to.equal(dime.getValue());
-
-
-        coinManager.addCoin(nickel);
-        coinManager.addCoin(nickel);
-        returnedCoins = coinManager.makeChange(10);
-
-        expect(returnedCoins.length).to.equal(2);
-        expect(returnedCoins[0].getValue()).to.equal(nickel.getValue());
-        expect(returnedCoins[1].getValue()).to.equal(nickel.getValue());
-      });
     });
-
-
 
   });
 });
