@@ -43,7 +43,20 @@ describe('CoinManager', function() {
       expect(totalValue).to.equal(amount);
     });
 
-   
+    describe("and available coins are sufficient", function() {
+
+      it("returns the largest possible coins denominations", function() {
+        var amount = 50;
+        let returnedCoins = coinManager.makeChange(amount);
+
+        expect(returnedCoins.length).to.equal(2);
+        expect(returnedCoins[0].getValue()).to.equal(25);
+        expect(returnedCoins[1].getValue()).to.equal(25);
+      });
+
+    });
+
+
   });
 
 });
