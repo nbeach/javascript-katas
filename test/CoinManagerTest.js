@@ -151,7 +151,14 @@ describe('CoinManager', function() {
           let accepted = coinManager.addCoin(new Coin(0, 0, 0));
           expect(accepted).to.be.false;
         });
-        
+
+        it("does not add the rejected coin to inventory", function() {
+          coinManager = new CoinManager([nickel, quarter, dime], []);
+          coinManager.addCoin(new Coin(0, 0, 5));
+          let coins = coinManager.makeChange(5);
+          expect(coins.length).to.equal(0);
+        });
+
       });
 
     });
