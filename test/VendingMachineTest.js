@@ -9,9 +9,12 @@ let Coin = require('../src/Coin');
 let Product = require('../src/Product');
 
 describe('VendingMachine', function() {
-  let vendingMachine, quarter, dime, nickel;
+  let vendingMachine, coinManager, quarter, dime, nickel;
 
   beforeEach(function() {
+    coinManager = sinon.createStubInstance(CoinManager);
+    vendingMachine = new VendingMachine(coinManager);
+
     quarter = new Coin(1, 1, 25);
     dime = new Coin(2, 2, 10);
     nickel = new Coin(3, 3, 5);
@@ -19,14 +22,10 @@ describe('VendingMachine', function() {
 
   describe('when no credit', function() {
 
-    beforeEach(function() {
-      vendingMachine = new VendingMachine(new CoinManager([], []));
+    it("shows an insert coin message on the display", function() {
+      let message = vendingMachine.getDisplayMessage();
+      expect(message).to.equal("INSERT COIN");
     });
-
-      it("shows an insert coin message on the display", function() {
-        let message = vendingMachine.getDisplayMessage();
-        expect(message).to.equal("INSERT COIN");
-      });
 
   });
 
