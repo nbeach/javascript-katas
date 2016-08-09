@@ -36,6 +36,11 @@ class CoinManager {
 
   }
 
+  getCoinFor(object) {
+    return _.find(this._acceptedCoins, (acceptedCoin) => object.equals(acceptedCoin));
+  }
+
+
   addCoin(coin) {
     let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(coin));
 

@@ -3,6 +3,7 @@ let _ = require('lodash');
 
 let CoinManager = require('../src/CoinManager');
 let Coin = require('../src/Coin');
+let CircularObject = require('../src/CircularObject');
 
 describe('CoinManager', function() {
   let coinManager, quarter, dime, nickel;
@@ -160,6 +161,17 @@ describe('CoinManager', function() {
         });
 
       });
+
+    });
+
+    describe("when asked if an object matches an coin", function() {
+
+      it("returns a match when one exists", function() {
+        let accepted = coinManager.getCoinFor(quarter);
+        expect(accepted).to.equal(quarter);
+      });
+
+
 
     });
 
