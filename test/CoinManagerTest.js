@@ -95,5 +95,49 @@ describe('CoinManager', function() {
 
     });
 
+
+    describe("when a coin is inserted", function() {
+
+      it("tracks them in inventory and doesn't return coins it doesn't have", function() {
+        let availableCoins = [
+          {
+            coin: quarter,
+            quantity: 1
+          }
+        ];
+
+        coinManager = new CoinManager([nickel, quarter, dime], availableCoins);
+        coinManager.addCoin(dime);
+        coinManager.addCoin(dime);
+        coinManager.addCoin(nickel);
+
+        let returnedCoins = coinManager.makeChange(25);
+
+        expect(returnedCoins.length).to.equal(1);
+        expect(returnedCoins[0].getValue()).to.equal(quarter.getValue());
+
+        coinManager.addCoin(nickel);
+        coinManager.addCoin(nickel);
+        coinManager.addCoin(nickel);
+        coinManager.addCoin(nickel);
+        returnedCoins = coinManager.makeChange(20);
+
+        expect(returnedCoins.length).to.equal(2);
+        expect(returnedCoins[0].getValue()).to.equal(dime.getValue());
+        expect(returnedCoins[1].getValue()).to.equal(dime.getValue());
+
+
+        coinManager.addCoin(nickel);
+        coinManager.addCoin(nickel);
+        returnedCoins = coinManager.makeChange(10);
+
+        expect(returnedCoins.length).to.equal(2);
+        expect(returnedCoins[0].getValue()).to.equal(nickel.getValue());
+        expect(returnedCoins[1].getValue()).to.equal(nickel.getValue());
+      });
+    });
+
+
+
   });
 });

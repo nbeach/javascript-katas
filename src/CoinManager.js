@@ -1,3 +1,5 @@
+let _ = require('lodash');
+
 class CoinManager {
 
   constructor(acceptedCoins, inventory) {
@@ -32,6 +34,19 @@ class CoinManager {
 
     return coinsToReturn;
 
+  }
+
+  addCoin(coin) {
+    let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(coin));
+
+    if(_.isUndefined(matchedInventory)) {
+      this._inventory.push({
+        coin: coin,
+        quantity: 1
+      });
+    } else {
+      matchedInventory.quantity++;
+    }
   }
 
 }
