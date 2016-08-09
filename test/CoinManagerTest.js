@@ -104,6 +104,11 @@ describe('CoinManager', function() {
         expect(accepted).to.be.true;
       });
 
+      it("tells if the coin was rejected", function() {
+        let accepted = coinManager.addCoin(new Coin(0, 0, 0));
+        expect(accepted).to.be.false;
+      });
+
       it("tracks them in inventory and doesn't return coins it doesn't have", function() {
         let availableCoins = [
           {

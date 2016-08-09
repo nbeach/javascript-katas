@@ -40,10 +40,16 @@ class CoinManager {
     let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(coin));
 
     if(_.isUndefined(matchedInventory)) {
-      this._inventory.push({
-        coin: coin,
-        quantity: 1
-      });
+      let matchedAcceptedCoin = _.find(this._acceptedCoins, (acceptedCoin) => acceptedCoin.equals(coin));
+
+      if(_.isUndefined(matchedAcceptedCoin)) {
+        return false;
+      } else {
+        this._inventory.push({
+          coin: coin,
+          quantity: 1
+        });
+      }
     } else {
       matchedInventory.quantity++;
     }
