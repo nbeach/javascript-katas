@@ -1,8 +1,10 @@
 let expect = require('chai').expect;
 let _ = require('lodash');
+let sinon = require('sinon');
 
 let VendingMachine = require('../src/VendingMachine');
 let CircularObject = require('../src/CircularObject');
+let CoinManager = require('../src/CoinManager');
 let Coin = require('../src/Coin');
 let Product = require('../src/Product');
 
@@ -18,7 +20,7 @@ describe('VendingMachine', function() {
   describe('when no credit', function() {
 
     beforeEach(function() {
-      vendingMachine = new VendingMachine([], []);
+      vendingMachine = new VendingMachine(new CoinManager([], []));
     });
 
       it("shows an insert coin message on the display", function() {
@@ -37,7 +39,7 @@ describe('VendingMachine', function() {
         new Coin(4, 5, 6)
       ];
 
-      vendingMachine = new VendingMachine(acceptedCoins, []);
+      vendingMachine = new VendingMachine(new CoinManager(acceptedCoins, []));
     });
 
     describe('and it is an accepted coin', function() {
@@ -95,7 +97,7 @@ describe('VendingMachine', function() {
     let unrecognizedCoin;
 
     beforeEach(function() {
-      vendingMachine = new VendingMachine([], []);
+      vendingMachine = new VendingMachine(new CoinManager([], []));
       unrecognizedCoin = new CircularObject(100, 200);
     });
 
@@ -130,7 +132,7 @@ describe('VendingMachine', function() {
         }
       ];
 
-      vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
+      vendingMachine = new VendingMachine(new CoinManager([nickel, quarter, dime], availableCoins));
     });
 
     it("puts coins totalling the current credit in the coin return", function() {
@@ -183,7 +185,7 @@ describe('VendingMachine', function() {
           }
         ];
 
-        vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
+        vendingMachine = new VendingMachine(new CoinManager([nickel, quarter, dime], availableCoins));
       });
 
       it("it returns returns multiple smaller denomination coins", function() {
@@ -218,7 +220,7 @@ describe('VendingMachine', function() {
       }
     ];
 
-    vendingMachine = new VendingMachine([nickel, quarter, dime], availableCoins);
+    vendingMachine = new VendingMachine(new CoinManager([nickel, quarter, dime], availableCoins));
     vendingMachine.insertCoin(dime);
     vendingMachine.insertCoin(dime);
     vendingMachine.insertCoin(nickel);
@@ -268,7 +270,7 @@ describe('VendingMachine', function() {
       }
     ];
 
-    vendingMachine = new VendingMachine([], [], productInventory);
+    vendingMachine = new VendingMachine(new CoinManager([], []), productInventory);
 
     var expectedProducts = _.map(productInventory, (productInventory) => productInventory.product);
     var products = vendingMachine.getProducts();
@@ -297,7 +299,7 @@ describe('VendingMachine', function() {
         }
       ];
 
-      vendingMachine = new VendingMachine([quarter, dime, nickel], [], productInventory);
+      vendingMachine = new VendingMachine(new CoinManager([quarter, dime, nickel], []), productInventory);
     });
 
     describe("and it is in stock", function() {
