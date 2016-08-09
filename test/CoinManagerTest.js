@@ -9,7 +9,7 @@ describe('CoinManager', function() {
 
   describe('when making change', function() {
 
-    beforeEach(function() {
+    beforeEach(function () {
       quarter = new Coin(1, 1, 25);
       dime = new Coin(2, 2, 10);
       nickel = new Coin(3, 3, 5);
@@ -33,19 +33,19 @@ describe('CoinManager', function() {
     });
 
 
-    it("returns coins totaling the requested amount", function() {
+    it("returns coins totaling the requested amount", function () {
       var amount = 30;
       let returnedCoins = coinManager.makeChange(amount);
-      let totalValue = _.reduce(returnedCoins, function(sum, coin) {
+      let totalValue = _.reduce(returnedCoins, function (sum, coin) {
         return sum + coin.getValue();
       }, 0);
 
       expect(totalValue).to.equal(amount);
     });
 
-    describe("and available coins are sufficient", function() {
+    describe("and available coins are sufficient", function () {
 
-      it("returns the largest possible coins denominations", function() {
+      it("returns the largest possible coins denominations", function () {
         var amount = 50;
         let returnedCoins = coinManager.makeChange(amount);
 
@@ -56,7 +56,44 @@ describe('CoinManager', function() {
 
     });
 
+    describe("and larger denomination coins are unavailable", function () {
+
+      beforeEach(function () {
+        let availableCoins = [
+          {
+            coin: nickel,
+            quantity: 10
+          },
+          {
+            coin: quarter,
+            quantity: 1
+          },
+          {
+            coin: dime,
+            quantity: 1
+          }
+        ];
+
+        coinManager = new CoinManager([nickel, quarter, dime], availableCoins);
+      });
+
+      it("returns returns multiple smaller denomination coins", function () {
+        let returnedCoins = coinManager.makeChange(50);
+
+        expect(returnedCoins.length).to.equal(5);
+
+        let quarterCount = _.filter(returnedCoins, quarter.equals.bind(quarter)).length;
+        expect(quarterCount).to.equal(1);
+
+        let dimeCount = _.filter(returnedCoins, dime.equals.bind(dime)).length;
+        expect(dimeCount).to.equal(1);
+
+        let nickelCount = _.filter(returnedCoins, nickel.equals.bind(nickel)).length;
+        expect(nickelCount).to.equal(3);
+
+      });
+
+    });
 
   });
-
 });
