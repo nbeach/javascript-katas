@@ -171,7 +171,10 @@ describe('CoinManager', function() {
         expect(accepted).to.equal(quarter);
       });
 
-
+      it("returns nothing when no matching coin", function() {
+        let accepted = coinManager.getCoinFor(new CircularObject(0, 0));
+        expect(accepted).to.be.undefined;
+      });
 
     });
 
