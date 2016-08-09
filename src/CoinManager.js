@@ -41,22 +41,23 @@ class CoinManager {
   }
 
 
-  addCoin(coin) {
-    let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(coin));
+  addCoin(object) {
+    let matchedCoin = this.getCoinFor(object);
+
+    if(_.isUndefined(matchedCoin)) {
+      return false;
+    }
+
+    let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(matchedCoin));
 
     if(_.isUndefined(matchedInventory)) {
-      let matchedAcceptedCoin = _.find(this._acceptedCoins, (acceptedCoin) => acceptedCoin.equals(coin));
-
-      if(_.isUndefined(matchedAcceptedCoin)) {
-        return false;
-      } else {
-        this._inventory.push({
-          coin: coin,
-          quantity: 1
-        });
-      }
+      this._inventory.push({
+        coin: matchedCoin,
+        quantity: 1
+      });
     } else {
       matchedInventory.quantity++;
+
     }
 
     return true;
