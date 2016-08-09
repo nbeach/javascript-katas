@@ -167,7 +167,7 @@ describe('CoinManager', function() {
     describe("when asked if an object matches an coin", function() {
 
       it("returns a match when one exists", function() {
-        let accepted = coinManager.getCoinFor(quarter);
+        let accepted = coinManager.getCoinFor(new CircularObject(quarter.getDiameter(), quarter.getWeight()));
         expect(accepted).to.equal(quarter);
       });
 
