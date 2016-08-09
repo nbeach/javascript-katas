@@ -47,6 +47,8 @@ class CoinManager {
     } else {
       matchedInventory.quantity++;
     }
+
+    return true;
   }
 
 }

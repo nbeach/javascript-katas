@@ -98,6 +98,12 @@ describe('CoinManager', function() {
 
     describe("when a coin is inserted", function() {
 
+
+      it("tells if the coin was accepted", function() {
+        let accepted = coinManager.addCoin(nickel);
+        expect(accepted).to.be.true;
+      });
+
       it("tracks them in inventory and doesn't return coins it doesn't have", function() {
         let availableCoins = [
           {
