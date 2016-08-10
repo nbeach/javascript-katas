@@ -13,7 +13,8 @@ describe('VendingMachine', function() {
 
   beforeEach(function() {
     coinManager = sinon.createStubInstance(CoinManager);
-    coinManager.canMakeChange.onCall(0).returns(true);
+    coinManager.canMakeChange.returns(true);
+    coinManager.getCoinFor.returnsArg(0);
     vendingMachine = new VendingMachine(coinManager);
 
     quarter = new Coin(1, 1, 25);
@@ -103,8 +104,6 @@ describe('VendingMachine', function() {
   describe("when the coin return is pushed", function() {
 
     it("puts the change in the coin return", function() {
-      coinManager.getCoinFor.onCall(0).returns(quarter);
-      coinManager.getCoinFor.onCall(1).returns(nickel);
       coinManager.makeChange.onCall(0).returns([quarter, nickel]);
 
       vendingMachine.insertCoin(quarter);
@@ -176,9 +175,6 @@ describe('VendingMachine', function() {
         let dispensed;
 
         beforeEach(function() {
-          coinManager.getCoinFor.onCall(0).returns(quarter);
-          coinManager.getCoinFor.onCall(1).returns(quarter);
-          coinManager.getCoinFor.onCall(2).returns(nickel);
           coinManager.makeChange.onCall(0).returns([nickel]);
 
           vendingMachine.insertCoin(quarter);
@@ -203,9 +199,6 @@ describe('VendingMachine', function() {
         it("depletes product inventory upon dispensing", function() {
           expect(dispensed).to.be.true;
 
-          coinManager.getCoinFor.onCall(3).returns(quarter);
-          coinManager.getCoinFor.onCall(4).returns(quarter);
-
           vendingMachine.insertCoin(quarter);
           vendingMachine.insertCoin(quarter);
           vendingMachine.dispense(chips);
@@ -224,7 +217,6 @@ describe('VendingMachine', function() {
         let dispensed;
 
         beforeEach(function() {
-          coinManager.getCoinFor.onCall(0).returns(quarter);
           vendingMachine.insertCoin(quarter);
           dispensed = vendingMachine.dispense(chips);
         });
@@ -272,7 +264,7 @@ describe('VendingMachine', function() {
   describe("when it is not possible to make change for all products", function() {
 
     it('displays exact change only message', function() {
-      coinManager.canMakeChange.onCall(0).returns(false);
+      coinManager.canMakeChange.returns(false);
       expect(vendingMachine.getDisplayMessage()).to.equal("EXACT CHANGE ONLY");
     });
 
