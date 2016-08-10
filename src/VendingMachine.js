@@ -1,5 +1,12 @@
 var _ = require('lodash');
 
+const DISPLAY_MESSAGE = Object.freeze({
+  INSERT_COIN: "INSERT COIN",
+  EXACT_CHANGE_ONLY: "EXACT CHANGE ONLY",
+  SOLD_OUT: "SOLD OUT",
+  THANK_YOU: "THANK YOU"
+});
+
 class VendingMachine {
 
   constructor(coinManager, productInventory) {
@@ -18,9 +25,9 @@ class VendingMachine {
       } else if(this._credit > 0) {
         return (this._credit / 100).toFixed(2);
       } else if(!this._coinManager.canMakeChange()) {
-        return "EXACT CHANGE ONLY";
+        return DISPLAY_MESSAGE.EXACT_CHANGE_ONLY;
       } else {
-        return "INSERT COIN";
+        return DISPLAY_MESSAGE.INSERT_COIN;
       }
   }
 
@@ -57,7 +64,7 @@ class VendingMachine {
     let inventoryItem = _.find(this._productInventory, (productInventory) => productInventory.product.equals(product));
 
     if(inventoryItem.quantity === 0) {
-      this._nextDisplayMessage = "SOLD OUT";
+      this._nextDisplayMessage = DISPLAY_MESSAGE.SOLD_OUT;
       return false;
     } else if(inventoryItem.product.getPrice() > this._credit) {
       this._nextDisplayMessage = inventoryItem.product.getPrice().toFixed(2);
@@ -66,7 +73,7 @@ class VendingMachine {
 
     this._credit -= inventoryItem.product.getPrice();
     this.returnCoins();
-    this._nextDisplayMessage = "THANK YOU";
+    this._nextDisplayMessage = DISPLAY_MESSAGE.THANK_YOU;
     inventoryItem.quantity--;
     return true;
   }
