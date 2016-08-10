@@ -178,5 +178,13 @@ describe('CoinManager', function() {
 
     });
 
+    describe("when asked if change can be made", function() {
+
+      it('confirms it can when inventory is sufficient', function() {
+        expect(coinManager.canMakeChange()).to.be.true;
+      });
+
+    });
+
   });
 });

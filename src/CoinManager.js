@@ -63,6 +63,11 @@ class CoinManager {
     return true;
   }
 
+  canMakeChange() {
+    return true;
+  }
+
+
 }
 
 module.exports = CoinManager;
