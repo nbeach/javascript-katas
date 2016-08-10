@@ -101,26 +101,11 @@ describe('VendingMachine', function() {
 
   describe("when the coin return is pushed", function() {
 
-    beforeEach(function() {
-      let availableCoins = [
-        {
-          coin: quarter,
-          quantity: 100
-        },
-        {
-          coin: dime,
-          quantity: 100
-        },
-        {
-          coin: nickel,
-          quantity: 100
-        }
-      ];
+    it("puts the change in the coin return", function() {
+      coinManager.getCoinFor.onCall(0).returns(quarter);
+      coinManager.getCoinFor.onCall(1).returns(nickel);
+      coinManager.makeChange.onCall(0).returns([quarter, nickel]);
 
-      vendingMachine = new VendingMachine(new CoinManager([nickel, quarter, dime], availableCoins));
-    });
-
-    it("puts coins totalling the current credit in the coin return", function() {
       vendingMachine.insertCoin(quarter);
       vendingMachine.insertCoin(nickel);
 
