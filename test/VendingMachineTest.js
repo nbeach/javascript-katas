@@ -13,6 +13,7 @@ describe('VendingMachine', function() {
 
   beforeEach(function() {
     coinManager = sinon.createStubInstance(CoinManager);
+    coinManager.canMakeChange.onCall(0).returns(true);
     vendingMachine = new VendingMachine(coinManager);
 
     quarter = new Coin(1, 1, 25);
@@ -267,5 +268,15 @@ describe('VendingMachine', function() {
     });
 
   });
+
+  describe("when it is not possible to make change for all products", function() {
+
+    it('displays exact change only message', function() {
+      coinManager.canMakeChange.onCall(0).returns(false);
+      expect(vendingMachine.getDisplayMessage()).to.equal("EXACT CHANGE ONLY");
+    });
+
+  });
+
 
 });

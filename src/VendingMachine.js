@@ -17,6 +17,8 @@ class VendingMachine {
         return message;
       } else if(this._credit > 0) {
         return (this._credit / 100).toFixed(2);
+      } else if(!this._coinManager.canMakeChange()) {
+        return "EXACT CHANGE ONLY";
       } else {
         return "INSERT COIN";
       }
