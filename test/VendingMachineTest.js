@@ -30,35 +30,23 @@ describe('VendingMachine', function() {
   });
 
   describe('when a coin is inserted', function() {
-    let acceptedCoins;
-
-    beforeEach(function() {
-      acceptedCoins = [
-        new Coin(1, 2, 3),
-        new Coin(4, 5, 6)
-      ];
-
-      vendingMachine = new VendingMachine(new CoinManager(acceptedCoins, []));
-    });
 
     describe('and it is an accepted coin', function() {
-      let acceptedCoin;
 
       beforeEach(function() {
-        acceptedCoin = acceptedCoins[1];
+        coinManager.getCoinFor.onCall(0).returns(new Coin(1, 1, 1));
       });
 
       it("tells that the coin was accepted", function() {
-        let object = new CircularObject(acceptedCoin.getDiameter(), acceptedCoin.getWeight());
-
+        let object = new CircularObject(new CircularObject(1, 1));
         let isValidCoin = vendingMachine.insertCoin(object);
 
         expect(isValidCoin).to.be.true;
       });
 
       it("displays credit for the coin on the display", function() {
-        vendingMachine.insertCoin(acceptedCoin);
-        expect(vendingMachine.getDisplayMessage()).to.contain("0.06");
+        vendingMachine.insertCoin(new CircularObject(1, 1));
+        expect(vendingMachine.getDisplayMessage()).to.contain("0.01");
       });
 
     });
