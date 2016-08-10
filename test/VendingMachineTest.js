@@ -82,16 +82,13 @@ describe('VendingMachine', function() {
   });
 
   describe("when the coin return contents is emptied", function() {
-    let unrecognizedCoin;
 
     beforeEach(function() {
-      vendingMachine = new VendingMachine(new CoinManager([], []));
-      unrecognizedCoin = new CircularObject(100, 200);
+      coinManager.getCoinFor.onCall(0).returns(undefined);
     });
 
-
     it("clears the coin return contents", function() {
-      vendingMachine.insertCoin(unrecognizedCoin);
+      vendingMachine.insertCoin(new CircularObject(1,1));
 
       let retrievedCoins = vendingMachine.emptyCoinReturn();
       expect(retrievedCoins.length).to.equal(1);
