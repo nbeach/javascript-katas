@@ -1,4 +1,4 @@
-let CircularObject = require('../src/CircularObject');
+let CircularObject = require('./CircularObject');
 
 class Coin extends CircularObject {
 

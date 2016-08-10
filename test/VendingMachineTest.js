@@ -3,10 +3,10 @@ let _ = require('lodash');
 let sinon = require('sinon');
 
 let VendingMachine = require('../src/VendingMachine');
-let CircularObject = require('../src/CircularObject');
+let CircularObject = require('../src/domain/CircularObject');
 let CoinManager = require('../src/CoinManager');
-let Coin = require('../src/Coin');
-let Product = require('../src/Product');
+let Coin = require('../src/domain/Coin');
+let Product = require('../src/domain/Product');
 
 describe('VendingMachine', function() {
   let vendingMachine, coinManager, quarter, dime, nickel;

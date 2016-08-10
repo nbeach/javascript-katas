@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-let CircularObject = require('../src/CircularObject');
+let CircularObject = require('../../src/domain/CircularObject');
 
 describe('CircularObjectTest', function() {
   let object;
