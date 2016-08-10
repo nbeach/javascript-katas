@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "test": "mocha",
-    "test:watch": "mocha --watch --reporter progress"
+    "test": "mocha --recursive",
+    "test:watch": "mocha --recursive --watch --reporter progress"
   },
   "devDependencies": {
     "chai": "^3.5.0",
