@@ -63,10 +63,31 @@ class CoinManager {
     return true;
   }
 
+  //This assumes that each coin is divisible by the smallest coin. Given that then in order to be able to make
+  //change for any given product and inserted coins then you need to be able to make change for every multiple
+  //of the smallest coin such that: (n * smallestCoinValue) <= (largestCoinValue - smallestCoinValue)
   canMakeChange() {
-    return true;
-  }
+    let acceptedCoinsByValue = _.sortBy(this._acceptedCoins, (coin) => coin.getValue());
+    let smallestCoinValue = acceptedCoinsByValue.shift().getValue();
+    let largestCoinValue = acceptedCoinsByValue.pop().getValue();
+    let changeAmount = smallestCoinValue;
+    while(changeAmount <= largestCoinValue - smallestCoinValue) {
 
+      let coins = this.makeChange(changeAmount);
+      let totalValue = _.reduce(coins, function (sum, coin) {
+        return sum + coin.getValue();
+      }, 0);
+
+      if(totalValue != changeAmount) {
+        return false;
+      }
+
+      changeAmount += smallestCoinValue;
+    }
+
+    return true;
+
+  }
 
 }
 

@@ -6,7 +6,7 @@ let Coin = require('../src/Coin');
 let CircularObject = require('../src/CircularObject');
 
 describe('CoinManager', function() {
-  let coinManager, quarter, dime, nickel;
+  let coinManager, quarter, dime, nickel, inventory;
 
   describe('when making change', function() {
 
@@ -15,18 +15,18 @@ describe('CoinManager', function() {
       dime = new Coin(2, 2, 10);
       nickel = new Coin(3, 3, 5);
 
-      let inventory = [
+      inventory = [
         {
           coin: quarter,
-          quantity: 100
+          quantity: 5
         },
         {
           coin: dime,
-          quantity: 100
+          quantity: 5
         },
         {
           coin: nickel,
-          quantity: 100
+          quantity: 5
         }
       ];
 
@@ -180,8 +180,18 @@ describe('CoinManager', function() {
 
     describe("when asked if change can be made", function() {
 
-      it('confirms it can when inventory is sufficient', function() {
-        expect(coinManager.canMakeChange()).to.be.true;
+      describe("and inventory is sufficient", function() {
+        it('confirms it can', function() {
+          expect(coinManager.canMakeChange()).to.be.true;
+        });
+      });
+
+
+      describe("and inventory is insufficient", function() {
+        it("tells it can't", function() {
+          inventory[2].quantity = 0;
+          expect(coinManager.canMakeChange()).to.be.false;
+        });
       });
 
     });
