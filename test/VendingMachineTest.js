@@ -53,9 +53,9 @@ describe('VendingMachine', function() {
 
     describe('and it is an unrecognized coin', function() {
       let object;
-
       beforeEach(function() {
-        object = new CircularObject(100, 200);
+        object = new CircularObject(1, 1);
+        coinManager.getCoinFor.onCall(0).returns(undefined);
       });
 
       it("tells that the coin was rejected", function() {
@@ -69,6 +69,7 @@ describe('VendingMachine', function() {
       });
 
       it("puts the coin in the coin return", function() {
+
         vendingMachine.insertCoin(object);
 
         let coinReturnContents = vendingMachine.emptyCoinReturn();
