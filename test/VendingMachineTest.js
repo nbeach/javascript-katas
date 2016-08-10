@@ -137,7 +137,7 @@ describe('VendingMachine', function() {
       }
     ];
 
-    vendingMachine = new VendingMachine(new CoinManager([], []), productInventory);
+    vendingMachine = new VendingMachine(coinManager, productInventory);
 
     var expectedProducts = _.map(productInventory, (productInventory) => productInventory.product);
     var products = vendingMachine.getProducts();
@@ -166,7 +166,7 @@ describe('VendingMachine', function() {
         }
       ];
 
-      vendingMachine = new VendingMachine(new CoinManager([quarter, dime, nickel], []), productInventory);
+      vendingMachine = new VendingMachine(coinManager, productInventory);
     });
 
     describe("and it is in stock", function() {
@@ -175,6 +175,11 @@ describe('VendingMachine', function() {
         let dispensed;
 
         beforeEach(function() {
+          coinManager.getCoinFor.onCall(0).returns(quarter);
+          coinManager.getCoinFor.onCall(1).returns(quarter);
+          coinManager.getCoinFor.onCall(2).returns(nickel);
+          coinManager.makeChange.onCall(0).returns([nickel]);
+
           vendingMachine.insertCoin(quarter);
           vendingMachine.insertCoin(quarter);
           vendingMachine.insertCoin(nickel);
@@ -197,6 +202,9 @@ describe('VendingMachine', function() {
         it("depletes product inventory upon dispensing", function() {
           expect(dispensed).to.be.true;
 
+          coinManager.getCoinFor.onCall(3).returns(quarter);
+          coinManager.getCoinFor.onCall(4).returns(quarter);
+
           vendingMachine.insertCoin(quarter);
           vendingMachine.insertCoin(quarter);
           vendingMachine.dispense(chips);
@@ -215,6 +223,7 @@ describe('VendingMachine', function() {
         let dispensed;
 
         beforeEach(function() {
+          coinManager.getCoinFor.onCall(0).returns(quarter);
           vendingMachine.insertCoin(quarter);
           dispensed = vendingMachine.dispense(chips);
         });
