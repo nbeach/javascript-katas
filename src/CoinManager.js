@@ -8,24 +8,28 @@ class CoinManager {
   }
 
   makeChange(amount) {
+    return this._makeChange(amount, true);
+  }
+
+  _makeChange(amount, removeCoinsFromInventory) {
     this._inventory.sort((a, b) => a.coin.getValue() - b.coin.getValue()).reverse();
 
     let coinsToReturn = [];
     for(let inventory of this._inventory) {
-      let coin = inventory.coin;
-      let quantityAvailable = inventory.quantity;
-
-      let quantityToReturn = Math.floor(amount / coin.getValue());
-      if(quantityToReturn > quantityAvailable) {
-        quantityToReturn = quantityAvailable;
+      let quantityToReturn = Math.floor(amount / inventory.coin.getValue());
+      if(quantityToReturn > inventory.quantity) {
+        quantityToReturn = inventory.quantity;
       }
 
       for(let i = 0; i < quantityToReturn; i ++) {
-        coinsToReturn.push(coin);
+        coinsToReturn.push(inventory.coin);
       }
 
-      amount -= coin.getValue() * quantityToReturn;
-      inventory.quantity -= quantityToReturn;
+      if(removeCoinsFromInventory) {
+        inventory.quantity -= quantityToReturn;
+      }
+
+      amount -= inventory.coin.getValue() * quantityToReturn;
 
       if(amount === 0) {
         break;
@@ -73,7 +77,7 @@ class CoinManager {
     let changeAmount = smallestCoinValue;
     while(changeAmount <= largestCoinValue - smallestCoinValue) {
 
-      let coins = this.makeChange(changeAmount);
+      let coins = this._makeChange(changeAmount, false);
       let totalValue = _.reduce(coins, function (sum, coin) {
         return sum + coin.getValue();
       }, 0);

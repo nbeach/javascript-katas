@@ -194,6 +194,12 @@ describe('CoinManager', function() {
         });
       });
 
+      it("does not deplete coin inventory in the process", function() {
+        for(let i = 0; i < 50; i ++) {
+          let canMakeChange = coinManager.canMakeChange();
+          expect(canMakeChange).to.be.true;
+        }
+      });
     });
 
   });
