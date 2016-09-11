@@ -1,4 +1,7 @@
 # Vending Machine Kata
+A completion of the vending machine kata by Guy Royse.
+ 
+https://github.com/guyroyse/vending-machine-kata
 
 ## Requirements
 - Node.js v6.3.1 or higher
