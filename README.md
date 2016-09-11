@@ -1,5 +1,5 @@
 # Vending Machine Kata
-A completion of the vending machine kata by Guy Royse.
+A JavaScript (ES6) completion of the vending machine kata by Guy Royse.
  
 https://github.com/guyroyse/vending-machine-kata
 
