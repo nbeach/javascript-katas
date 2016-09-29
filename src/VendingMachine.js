@@ -57,11 +57,11 @@ class VendingMachine {
   }
 
   getProducts() {
-    return _.map(this._productInventory, (productInventory) => productInventory.product);
+    return this._productInventory.map(productInventory => productInventory.product);
   }
 
   dispense(product) {
-    let inventoryItem = _.find(this._productInventory, (productInventory) => productInventory.product.equals(product));
+    let inventoryItem = this._productInventory.find(productInventory => productInventory.product.equals(product));
 
     if(inventoryItem.quantity === 0) {
       this._nextDisplayMessage = DISPLAY_MESSAGE.SOLD_OUT;

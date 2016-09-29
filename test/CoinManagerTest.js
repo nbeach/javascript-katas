@@ -1,5 +1,4 @@
 let expect = require('chai').expect;
-let _ = require('lodash');
 
 let CoinManager = require('../src/CoinManager');
 let Coin = require('../src/domain/Coin');
@@ -37,9 +36,7 @@ describe('CoinManager', function() {
     it("returns coins totaling the requested amount", function () {
       var amount = 30;
       let returnedCoins = coinManager.makeChange(amount);
-      let totalValue = _.reduce(returnedCoins, function (sum, coin) {
-        return sum + coin.getValue();
-      }, 0);
+      let totalValue = returnedCoins.reduce((sum, coin) => sum + coin.getValue(), 0);
 
       expect(totalValue).to.equal(amount);
     });
@@ -83,13 +80,13 @@ describe('CoinManager', function() {
 
         expect(returnedCoins.length).to.equal(5);
 
-        let quarterCount = _.filter(returnedCoins, quarter.equals.bind(quarter)).length;
+        let quarterCount = returnedCoins.filter(quarter.equals.bind(quarter)).length;
         expect(quarterCount).to.equal(1);
 
-        let dimeCount = _.filter(returnedCoins, dime.equals.bind(dime)).length;
+        let dimeCount = returnedCoins.filter(dime.equals.bind(dime)).length;
         expect(dimeCount).to.equal(1);
 
-        let nickelCount = _.filter(returnedCoins, nickel.equals.bind(nickel)).length;
+        let nickelCount = returnedCoins.filter(nickel.equals.bind(nickel)).length;
         expect(nickelCount).to.equal(3);
 
       });
