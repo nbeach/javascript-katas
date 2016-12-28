@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-let Coin = require('../../src/domain/Coin');
+let Coin = require('../../../src/VendingMachine/domain/Coin');
 
 describe('CoinTest', function() {
   let coin;

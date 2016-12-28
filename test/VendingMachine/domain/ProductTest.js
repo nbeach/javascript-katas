@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-let Product = require('../../src/domain/Product');
+let Product = require('../../../src/VendingMachine/domain/Product');
 
 describe('ProductTest', function() {
   let product;

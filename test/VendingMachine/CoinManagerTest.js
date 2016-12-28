@@ -1,9 +1,9 @@
 let expect = require('chai').expect;
 let _ = require('lodash');
 
-let CoinManager = require('../src/CoinManager');
-let Coin = require('../src/domain/Coin');
-let CircularObject = require('../src/domain/CircularObject');
+let CoinManager = require('../../src/VendingMachine/CoinManager');
+let Coin = require('../../src/VendingMachine/domain/Coin');
+let CircularObject = require('../../src/VendingMachine/domain/CircularObject');
 
 describe('CoinManager', function() {
   let coinManager, quarter, dime, nickel, inventory;

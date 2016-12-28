@@ -2,11 +2,11 @@ let expect = require('chai').expect;
 let _ = require('lodash');
 let sinon = require('sinon');
 
-let VendingMachine = require('../src/VendingMachine');
-let CircularObject = require('../src/domain/CircularObject');
-let CoinManager = require('../src/CoinManager');
-let Coin = require('../src/domain/Coin');
-let Product = require('../src/domain/Product');
+let VendingMachine = require('../../src/VendingMachine/VendingMachine');
+let CircularObject = require('../../src/VendingMachine/domain/CircularObject');
+let CoinManager = require('../../src/VendingMachine/CoinManager');
+let Coin = require('../../src/VendingMachine/domain/Coin');
+let Product = require('../../src/VendingMachine/domain/Product');
 
 describe('VendingMachine', function() {
   let vendingMachine, coinManager, quarter, dime, nickel;
