@@ -41,7 +41,7 @@ class CoinManager {
   }
 
   getCoinFor(object) {
-    return _.find(this._acceptedCoins, (acceptedCoin) => object.equals(acceptedCoin));
+    return this._acceptedCoins.find(acceptedCoin => object.equals(acceptedCoin));
   }
 
 
@@ -52,7 +52,7 @@ class CoinManager {
       return false;
     }
 
-    let matchedInventory = _.find(this._inventory, (inventoryCoin) => inventoryCoin.coin.equals(matchedCoin));
+    let matchedInventory = this._inventory.find(inventoryCoin => inventoryCoin.coin.equals(matchedCoin));
 
     if(_.isUndefined(matchedInventory)) {
       this._inventory.push({
@@ -78,9 +78,7 @@ class CoinManager {
     while(changeAmount <= largestCoinValue - smallestCoinValue) {
 
       let coins = this._makeChange(changeAmount, false);
-      let totalValue = _.reduce(coins, function (sum, coin) {
-        return sum + coin.getValue();
-      }, 0);
+      let totalValue = coins.reduce((sum, coin) => sum + coin.getValue(), 0);
 
       if(totalValue != changeAmount) {
         return false;

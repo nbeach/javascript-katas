@@ -1,5 +1,4 @@
 let expect = require('chai').expect;
-let _ = require('lodash');
 let sinon = require('sinon');
 
 let VendingMachine = require('../../src/VendingMachine/VendingMachine');
@@ -112,9 +111,7 @@ describe('VendingMachine', function() {
       vendingMachine.returnCoins();
       let returnedCoins = vendingMachine.emptyCoinReturn();
 
-      let totalValue = _.reduce(returnedCoins, function(sum, coin) {
-        return sum + coin.getValue();
-      }, 0);
+      let totalValue = returnedCoins.reduce((sum, coin) => sum + coin.getValue(), 0);
 
       expect(totalValue).to.equal(30);
     });
@@ -139,7 +136,7 @@ describe('VendingMachine', function() {
 
     vendingMachine = new VendingMachine(coinManager, productInventory);
 
-    var expectedProducts = _.map(productInventory, (productInventory) => productInventory.product);
+    var expectedProducts = productInventory.map(productInventory => productInventory.product);
     var products = vendingMachine.getProducts();
 
     expect(products.length).to.equal(expectedProducts.length);
