@@ -1,9 +1,11 @@
 # JavaScript Katas
 
-## Vending Machine Kata
-A JavaScript (ES6) completion of the vending machine kata by Guy Royse.
+- #### Fizz Buzz
 
-https://github.com/guyroyse/vending-machine-kata
+- #### Vending Machine Kata
+  A completion of the vending machine kata by Guy Royse.
+
+  https://github.com/guyroyse/vending-machine-kata
 
 ### Requirements
 - Node.js v6.3.1 or higher
