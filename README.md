@@ -1,6 +1,10 @@
 # JavaScript Katas
 
 - #### Fizz Buzz
+  It's fizz buzz
+
+- #### Infix to Postfix
+  Converts space separated Infix expressions to postfix format
 
 - #### Vending Machine Kata
   A completion of the vending machine kata by Guy Royse.
