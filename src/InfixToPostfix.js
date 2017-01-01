@@ -1,25 +1,25 @@
-let _ = require("lodash");
+const _ = require("lodash");
 
-let handle_closing_parenthesis = (operators, postfix) => {
-  let operator = operators.pop();
- if(operator !== "(") {
-   return handle_closing_parenthesis(operators, postfix + operator)
- } else {
-   return [operators, postfix];
- }
+const InfixToPostfix = (expression) => {
+  let parts = expression.split(" ");
+  return convertExpression(parts, "", []);
 };
 
-let handle_opening_parenthesis = (operators, postfix, symbol) => {
-  operators.push(symbol);
-  return [operators, postfix];
+module.exports = InfixToPostfix;
+
+
+const convertExpression = (infix, postfix, operators) => {
+  if(infix.length === 0) {
+      return postfix + operators.reduce((operator, acc) => acc + operator, "");
+  } else {
+    let symbol = infix.shift();
+    let action = _.find(symbolActions, a => a.when(symbol));
+    [operators, postfix] = action.then(operators, postfix, symbol);
+    return convertExpression(infix, postfix, operators);
+  }
 };
 
-let handle_term = (operators, postfix, symbol) => {
-  postfix += symbol;
-  return [operators, postfix];
-};
-
-let handle_operator = (operators, postfix, operator) => {
+const handleOperator = (operators, postfix, operator) => {
   if(operators.length > 0) {
     let top = operators[operators.length - 1];
     if(precedence(operator) >= precedence(top)) {
@@ -30,7 +30,26 @@ let handle_operator = (operators, postfix, operator) => {
   return [operators, postfix];
 };
 
-let precedence = (symbol) => {
+const handleTerm = (operators, postfix, symbol) => {
+  postfix += symbol;
+  return [operators, postfix];
+};
+
+const handleClosingParenthesis = (operators, postfix) => {
+  let operator = operators.pop();
+  if(operator !== "(") {
+    return handleClosingParenthesis(operators, postfix + operator)
+  } else {
+    return [operators, postfix];
+  }
+};
+
+const handleOpeningParenthesis = (operators, postfix, symbol) => {
+  operators.push(symbol);
+  return [operators, postfix];
+};
+
+const precedence = (symbol) => {
   switch(symbol) {
     case "^": return 1;
     case "*": return 2;
@@ -41,30 +60,13 @@ let precedence = (symbol) => {
   }
 };
 
-let is_operator = (symbol) => {
+const isOperator = (symbol) => {
   return precedence(symbol) !== 999;
 };
 
-let actions = [
-  {when: is_operator,               then: handle_operator},
-  {when: symbol => symbol === "(",  then: handle_opening_parenthesis},
-  {when: symbol => symbol === ")",  then: handle_closing_parenthesis},
-  {when: () => true,                then: handle_term}
+const symbolActions = [
+  {when: isOperator,                then: handleOperator},
+  {when: symbol => symbol === "(",  then: handleOpeningParenthesis},
+  {when: symbol => symbol === ")",  then: handleClosingParenthesis},
+  {when: () => true,                then: handleTerm}
 ];
-
-let convert = (infix, postfix, operators) => {
-  if(infix.length === 0) {
-      return postfix + operators.reduce((operator, acc) => acc + operator, "");
-  } else {
-    let symbol = infix.shift();
-    [operators, postfix] = _.find(actions, action => action.when(symbol)).then(operators, postfix, symbol);
-    return convert(infix, postfix, operators);
-  }
-};
-
-let InfixToPostfix = (expression) => {
-  let parts = expression.split(" ");
-  return convert(parts, "", []);
-};
-
-module.exports = InfixToPostfix;
